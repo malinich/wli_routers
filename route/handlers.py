@@ -1,26 +1,24 @@
-import json
+import asyncio
+import operator
+from itertools import zip_longest
 
+import aiohttp
 import pymongo
-import tornado.escape
-import tornado.web
 
 from handlers import BaseHandler
 from route.models import Route, RoutePoint
 from route.serializers import UserTopSchema
+from settings import USER_SERVICE
 from utils import Routers
 
 
 @Routers("/route")
-class RouterCreate(BaseHandler):
+class RouterPath(BaseHandler):
+    model = Route
 
     async def post(self, *args, **kwargs):
-        data = {
-            "author": self.get_current_user(),
-            "title": self.payload.get("title"),
-            "vectors": self.payload.get("vectors"),
-            "is_public": self.payload.get("is_public")
-        }
-        insert = (await Route(**data).commit()).inserted_id
+        payload = self.fill_payload(author=self.get_current_user)
+        insert = (await Route(**payload).commit()).inserted_id
         self.write(str(insert))
 
 
@@ -52,9 +50,28 @@ class UsersTopRoute(BaseHandler):
             {"$limit": 6}
         ])
         top_users = await cursor.to_list(None)
+        chuncks = zip_longest(*[iter(top_users)] * 5)
+
+        users = {}
+        async with self.get_session() as session:
+            for ch in chuncks:
+                users_chunck = await asyncio.gather(*[self.get_body(session, user["_id"]) for user in ch if user])
+                [users.update(
+                    {u['guid']: u}) for u in users_chunck]
+
+        [operator.setitem(u, "user", users.get(str(u['_id']), None)) for u in top_users]
         data = self.dumps(top_users, many=True)
         self.write(data)
 
+    def get_session(self):
+        session = aiohttp.ClientSession()
+        return session
+
+    async def get_body(self, session, guid):
+        url = USER_SERVICE + "/" + str(guid)
+        response = await session.get(url)
+        data = await response.json()
+        return data
 
 @Routers("/last")
 class Last5Route(BaseHandler):

@@ -21,7 +21,7 @@ class Route(Document, metaclass=MetaBaseTemplate):
     author = fields.UUIDField(required=True)
     title = fields.StringField(validate=validate.Length(max=255), required=True)
     vectors = fields.ListField(fields.EmbeddedField(Vector), missing=list)
-    is_public = fields.BooleanField(missing=False)
+    is_public = fields.BooleanField(missing=False, default=False)
     created = fields.DateTimeField(missing=datetime.utcnow)
 
     class Meta:

@@ -1,0 +1,9 @@
+{"title": "my trip",
+  "vectors": [
+    {
+      "points": [{"x":1, "y": 2},{"x":2, "y": 3}],
+     "types": [1]
+    }
+  ],
+  "user": "a97821c9-cad3-4586-9704-687c75db0d3d"
+}

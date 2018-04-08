@@ -6,3 +6,5 @@ CLOUDINARY = {
 APPS = [
     'route'
 ]
+
+USER_SERVICE = "http://127.0.0.1:3005"
