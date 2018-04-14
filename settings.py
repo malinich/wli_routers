@@ -7,4 +7,5 @@ APPS = [
     'route'
 ]
 
-USER_SERVICE = "http://127.0.0.1:3005"
+USER_SERVICE = "http://wli_users:3005"
+MONGO_HOST = "wli_mongo"

@@ -14,7 +14,7 @@ from utils import Routers
 
 
 class WliImagesApplication(Application):
-    db = AsyncIOMotorClient().wli
+    db = AsyncIOMotorClient(settings.MONGO_HOST).wli
     db_instance = MotorAsyncIOInstance()
     db_instance.init(db)
 
