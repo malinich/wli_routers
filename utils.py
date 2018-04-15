@@ -1,5 +1,6 @@
-from typing import Type
 import json
+from typing import Type
+
 import tornado.web
 from marshmallow import Schema
 

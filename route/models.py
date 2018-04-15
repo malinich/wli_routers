@@ -1,7 +1,9 @@
 from datetime import datetime
-from umongo import Document, fields, EmbeddedDocument
+
 from marshmallow import validate
-from app import MetaBaseTemplate
+from umongo import Document, fields, EmbeddedDocument
+
+from wli_routers.app import MetaBaseTemplate
 
 
 class Vector(EmbeddedDocument, metaclass=MetaBaseTemplate):

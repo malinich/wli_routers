@@ -9,8 +9,8 @@ from umongo import MotorAsyncIOInstance
 from umongo.document import MetaDocumentImplementation
 from umongo.template import MetaTemplate
 
-import settings
-from utils import Routers
+from wli_routers import settings
+from wli_routers.utils import Routers
 
 
 class WliImagesApplication(Application):

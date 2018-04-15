@@ -5,11 +5,11 @@ from itertools import zip_longest
 import aiohttp
 import pymongo
 
-from handlers import BaseHandler
-from route.models import Route, RoutePoint
-from route.serializers import UserTopSchema
-from settings import USER_SERVICE
-from utils import Routers
+from wli_routers.handlers import BaseHandler
+from wli_routers.settings import USER_SERVICE
+from wli_routers.utils import Routers
+from .models import Route, RoutePoint
+from .serializers import UserTopSchema
 
 
 @Routers("/route")
